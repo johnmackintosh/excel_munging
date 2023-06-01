@@ -19,6 +19,13 @@ method_purrr <- files %>%
   map_dfr(read_excel, sheet = "Manchester",.id = "source_wb")
 
 
+## new purrr from 1.0.1
+files %>%
+  set_names() %>%
+  map(sheet = "Manchester", read_excel) %>%
+  list_rbind(names_to = "source_wb")
+
+
 # for loop and data.table 
 
 filecount <- as.numeric(length(files))  
@@ -60,3 +67,10 @@ all_sheets <- all_sheets[which(!all_sheets %like% 'Targets')]
 all_sheets_df <- map_dfr(all_sheets,
                     ~ read_excel(path, sheet = .x),
                     .id = "sheet")
+
+
+## new purrr from 1.0.1
+all_sheets_df <- map(all_sheets,
+                    \(x) read_excel(path, sheet = x)) |>
+  list_rbind(names_to = "sheet")
+
