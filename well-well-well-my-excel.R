@@ -74,3 +74,9 @@ all_sheets_df <- map(all_sheets,
                     \(x) read_excel(path, sheet = x)) |>
   list_rbind(names_to = "sheet")
 
+# or
+# courtesy @jimgar
+
+all_sheets |>
+  purrr::map(\(sheet) read_excel(path, sheet = sheet)) |>
+  list_rbind(names_to = "sheet")
